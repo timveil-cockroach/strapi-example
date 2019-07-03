@@ -11,6 +11,7 @@ services:
       - "26257:26257"
       - "8080:8080"
   strapi:
+    container_name: strapi
     image: strapi/strapi
     environment:
       - APP_NAME=strapi-app

@@ -10,9 +10,11 @@ services:
     ports:
       - "26257:26257"
       - "8080:8080"
+
   strapi:
     container_name: strapi
-    image: strapi/strapi
+    hostname: strapi
+    build: strapi
     environment:
       - APP_NAME=strapi-app
       - DATABASE_CLIENT=postgres
@@ -23,9 +25,6 @@ services:
       - DATABASE_SSL=false
       - HOST=localhost
     ports:
-      - 1337:1337
-    volumes:
-      - ./strapi-app:/usr/src/api/strapi-app
+      - "1337:1337"
     depends_on:
       - crdb
-    restart: always

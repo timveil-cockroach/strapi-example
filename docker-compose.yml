@@ -1,0 +1,31 @@
+version: '3.5'
+
+services:
+
+  crdb:
+    container_name: crdb
+    hostname: crdb
+    image: cockroachdb/cockroach:latest
+    command: start --logtostderr --insecure
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+  strapi:
+    image: strapi/strapi
+    environment:
+      - APP_NAME=strapi-app
+      - DATABASE_CLIENT=postgres
+      - DATABASE_HOST=crdb
+      - DATABASE_PORT=26257
+      - DATABASE_USERNAME=root
+      - DATABASE_PASSWORD=
+      - DATABASE_SSL=false
+      - HOST=localhost
+    ports:
+      - 1337:1337
+    volumes:
+      - ./strapi-app:/usr/src/api/strapi-app
+      #- /usr/src/api/strapi-app/node_modules
+    depends_on:
+      - crdb
+    restart: always
